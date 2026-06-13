@@ -87,6 +87,52 @@ svg.ic{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.75;st
 .dt{display:flex;align-items:center;gap:6px;padding:11px 14px;border-bottom:1px solid var(--borde)}
 .dt-tab{background:transparent;border:1px solid var(--borde);color:var(--texto2);font-size:11.5px;font-weight:600;padding:6px 14px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px}
 .dt-tab.sel{background:var(--rojodim);border-color:var(--rojo);color:var(--rojo)}
+
+/* PANEL CONTEXTO */
+.ctx-blk{background:var(--panel2);border:1px solid var(--borde);border-radius:var(--r);padding:13px;margin-bottom:11px}
+.ctx-h{font-size:10.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--texto2);display:flex;align-items:center;gap:7px;margin-bottom:9px}
+.ctx-h svg{color:var(--rojo);width:14px;height:14px}
+.ctx-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:7px;font-size:12px;color:var(--texto)}
+.ctx-item .estado-pt{width:6px;height:6px;border-radius:50%;background:var(--verde);flex-shrink:0;box-shadow:0 0 6px var(--verde)}
+.ctx-item .estado-pt.off{background:var(--borde);box-shadow:none}
+.ctx-item .nom{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ctx-item .det{font-size:10.5px;color:var(--texto2);font-family:var(--fm)}
+.ctx-vacio{font-size:11.5px;color:var(--texto2);text-align:center;padding:8px;font-style:italic}
+
+/* COLMENA FLOTANTE */
+.flor-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:90;padding:20px;backdrop-filter:blur(4px)}
+.flor-overlay.visible{display:flex}
+.flor-card{background:var(--panel);border:1px solid var(--borde);border-radius:16px;width:100%;max-width:620px;display:flex;flex-direction:column;max-height:92vh}
+.flor-card-top{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--borde)}
+.flor-card-titulo{font-family:var(--fd);font-size:18px;letter-spacing:2px;color:var(--rojo);display:flex;align-items:center;gap:9px}
+.flor-cerrar{background:transparent;border:none;color:var(--texto2);font-size:26px;cursor:pointer;line-height:1;padding:0 6px}
+.flor-cerrar:hover{color:var(--rojo)}
+.flor-card-zona{flex:1;padding:14px;display:flex;align-items:center;justify-content:center;min-height:480px}
+.flor-card-ley{display:flex;gap:14px;padding:12px 18px;border-top:1px solid var(--borde);font-size:11px;color:var(--texto2);flex-wrap:wrap;justify-content:center}
+.flor-card-ley span{display:flex;align-items:center;gap:5px}
+.flor-card-ley i{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+/* RAZONAMIENTO COLAPSABLE (acordeón) */
+.razon-box{background:var(--panel2);border:1px solid var(--borde);border-radius:10px;margin-top:8px;overflow:hidden}
+.razon-trigger{width:100%;background:transparent;border:none;color:var(--texto2);text-align:left;padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:9px;font-family:var(--fb);font-size:12px;font-weight:600}
+.razon-trigger:hover{background:var(--panel3);color:var(--texto)}
+.razon-trigger svg{width:14px;height:14px;color:var(--rojo);transition:transform .25s}
+.razon-trigger.abierto svg{transform:rotate(90deg)}
+.razon-trigger .meta{margin-left:auto;font-size:10.5px;color:var(--texto2);font-family:var(--fm);font-weight:400}
+.razon-contenido{display:none;padding:0 14px 12px;border-top:1px solid var(--borde)}
+.razon-contenido.abierto{display:block}
+.razon-burbuja{background:var(--panel3);border-left:2px solid var(--rojo);border-radius:8px;padding:9px 12px;margin-top:9px;font-size:11.5px;color:var(--texto2);line-height:1.5}
+.razon-burbuja b.nom{color:var(--texto);font-size:11px;display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.razon-burbuja b.nom .fase{margin-left:auto;font-weight:500;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--rojo);background:var(--rojodim);padding:1.5px 7px;border-radius:9px}
+.razon-burbuja .lin{white-space:pre-wrap;font-family:var(--fb)}
+.razon-paso{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--texto2);padding:4px 0}
+.razon-paso .ok{color:var(--verde)}
+.razon-paso .sp{width:9px;height:9px;border:2px solid var(--borde);border-top-color:var(--rojo);border-radius:50%;animation:gr .7s linear infinite;flex-shrink:0}
+
+/* Mensaje de progreso compacto durante ejecución */
+.proceso-mini{background:var(--panel);border:1px solid var(--borde);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--texto2);display:flex;align-items:center;gap:10px}
+.proceso-mini .sp{width:11px;height:11px;border:2px solid var(--borde);border-top-color:var(--rojo);border-radius:50%;animation:gr .7s linear infinite}
+.proceso-mini b{color:var(--rojo);font-family:var(--fm)}
 .dz{flex:1;display:flex;align-items:center;justify-content:center;overflow:auto;padding:14px}
 .dz svg{max-width:100%;height:auto}
 .dz-info{padding:0 18px 14px;font-size:11.5px;color:var(--texto2);line-height:1.7}
@@ -182,21 +228,48 @@ svg.ic{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.75;st
 
 <section class="derecha">
   <div class="dt">
-    <button class="dt-tab sel" id="t-flor" onclick="dTab('flor')"><span id="i-flor"></span>Colmena</button>
+    <button class="dt-tab sel" id="t-ctx" onclick="dTab('ctx')"><span id="i-ctxtab"></span>Contexto</button>
     <button class="dt-tab" id="t-hist" onclick="dTab('hist')"><span id="i-hist"></span>Historial</button>
+    <button class="dt-tab" style="margin-left:auto" id="btn-flor" onclick="toggleFlor()"><span id="i-flortab"></span>Ver colmena</button>
   </div>
-  <div class="dz" id="d-flor"><svg id="flor" width="520" height="520" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet"></svg></div>
-  <div id="hist-vista"></div>
-  <div class="dz-info" id="dz-info">
-    <div><b id="info-tot"></b> agentes · <b>10</b> dominios · <b>10</b> enfoques</div>
-    <div class="ley">
+
+  <div id="ctx-vista" style="flex:1;overflow-y:auto;padding:18px">
+    <div class="ctx-blk">
+      <div class="ctx-h"><span id="i-cb1"></span>Skills activas</div>
+      <div id="ctx-skills"></div>
+    </div>
+    <div class="ctx-blk">
+      <div class="ctx-h"><span id="i-cb2"></span>Contexto de sesión</div>
+      <div id="ctx-archivos"></div>
+    </div>
+    <div class="ctx-blk">
+      <div class="ctx-h"><span id="i-cb3"></span>Conectores</div>
+      <div id="ctx-conects"></div>
+    </div>
+    <div class="ctx-blk">
+      <div class="ctx-h"><span id="i-cb4"></span>Proveedores</div>
+      <div id="ctx-prov" style="font-size:12px;color:var(--texto2);line-height:1.7"></div>
+    </div>
+  </div>
+
+  <div id="hist-vista" style="display:none;flex:1;overflow-y:auto;padding:14px 18px"></div>
+</section>
+
+<!-- COLMENA FLOTANTE (oculta por defecto) -->
+<div class="flor-overlay" id="flor-overlay">
+  <div class="flor-card">
+    <div class="flor-card-top">
+      <div class="flor-card-titulo"><span id="i-flor"></span>Colmena en vivo</div>
+      <button class="flor-cerrar" onclick="toggleFlor()">×</button>
+    </div>
+    <div class="flor-card-zona"><svg id="flor" width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet"></svg></div>
+    <div class="flor-card-ley">
       <span><i style="background:#3A3A42"></i>en reserva</span>
       <span><i style="background:var(--rojo)"></i>trabajando</span>
       <span><i style="background:var(--verde)"></i>completado</span>
-      <span><i style="background:var(--rojo);border-radius:0"></i>línea = debatiendo</span>
     </div>
   </div>
-</section>
+</div>
 
 <!-- MODAL SKILL -->
 <div class="mf" id="m-skill"><div class="modal">
@@ -272,10 +345,13 @@ gas:'<svg class="ic" viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/><
 js:'<svg class="ic" viewBox="0 0 24 24"><path d="M8 4c-2 0-2 2-2 3v3c0 1-1 2-2 2 1 0 2 1 2 2v3c0 1 0 3 2 3M16 4c2 0 2 2 2 3v3c0 1 1 2 2 2-1 0-2 1-2 2v3c0 1 0 3-2 3"/></svg>',
 css:'<svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="13" height="13" rx="2"/><rect x="8" y="8" width="13" height="13" rx="2"/></svg>',
 html:'<svg class="ic" viewBox="0 0 24 24"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5M13 4l-2 16"/></svg>',
-arch:'<svg class="ic" viewBox="0 0 24 24"><circle cx="5" cy="5" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="12" cy="19" r="2.5"/><path d="M7 6.5l3.5 9M17 6.5l-3.5 9M7.5 5h9"/></svg>'
+arch:'<svg class="ic" viewBox="0 0 24 24"><circle cx="5" cy="5" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="12" cy="19" r="2.5"/><path d="M7 6.5l3.5 9M17 6.5l-3.5 9M7.5 5h9"/></svg>',
+doc:'<svg class="ic" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>',
+skill:'<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>',
+cloud:'<svg class="ic" viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 010-9 6 6 0 0111.6 1.5A3.8 3.8 0 0118 18z"/></svg>'
 };
 ["lg","lgg"].forEach(id=>document.getElementById(id).innerHTML=IC.hex);
-[["i-plus","plus"],["i-gear","gear"],["i-send","send"],["i-flor","flor"],["i-hist","hist"]].forEach(([a,b])=>document.getElementById(a).innerHTML=IC[b]);
+[["i-plus","plus"],["i-gear","gear"],["i-send","send"],["i-flor","flor"],["i-hist","hist"],["i-ctxtab","doc"],["i-flortab","flor"],["i-cb1","skill"],["i-cb2","doc"],["i-cb3","cloud"],["i-cb4","gear"]].forEach(([a,b])=>{const el=document.getElementById(a);if(el)el.innerHTML=IC[b]||"";});
 
 /* ESTADO */
 let ocupado=false, dominioActivo=null;
@@ -327,18 +403,21 @@ function pintarSkills(){
   document.getElementById("lista-skills").innerHTML=s.length
     ?s.map(x=>`<div class="item"><span class="toggle ${x.activa?'on':''}" onclick="toggleSkill('${x.id}')"><i></i></span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(x.nombre)}</span><span class="x" onclick="borrarSkill('${x.id}')">×</span></div>`).join("")
     :'<div style="font-size:11px;color:var(--texto2);padding:2px 6px">Sin skills</div>';
+  if(document.getElementById("ctx-vista")?.style.display!=="none")pintarContextoVista();
 }
 function pintarCtx(){
   const c=ctxs();
   document.getElementById("lista-ctx").innerHTML=c.length
     ?c.map((x,i)=>`<span class="chip">${esc(x.nombre.slice(0,18))}<span class="x" onclick="borrarCtx(${i})">×</span></span>`).join("")
     :'<div style="font-size:11px;color:var(--texto2);padding:2px 6px">Sin contexto</div>';
+  if(document.getElementById("ctx-vista")?.style.display!=="none")pintarContextoVista();
 }
 function pintarConectores(){
   const c=conectores();
   document.getElementById("lista-con").innerHTML=c.length
     ?c.map(x=>`<div class="item">${IC.cloud}<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(x.nombre)}</span><span class="x" onclick="borrarConector('${x.id}')">×</span></div>`).join("")
     :'<div style="font-size:11px;color:var(--texto2);padding:2px 6px">Sin conectores</div>';
+  if(document.getElementById("ctx-vista")?.style.display!=="none")pintarContextoVista();
 }
 
 function abrirSkill(){document.getElementById("m-skill").classList.add("visible")}
@@ -424,7 +503,7 @@ function abrirConfig(){
 function guardarConfig(){
   Object.keys(PROVEEDORES).forEach(id=>setProviderKey(id,document.getElementById("key-"+id).value));
   cfg.roles={coord:document.getElementById("rol-coord").value,enjambre:document.getElementById("rol-enjambre").value,sintesis:document.getElementById("rol-sintesis").value};
-  estadoApi();actualizarNota();cerrar("m-conf");
+  estadoApi();actualizarNota();pintarContextoVista();cerrar("m-conf");
 }
 function estadoApi(){
   const a=Object.keys(PROVEEDORES).filter(p=>getProviderKey(p));
@@ -437,12 +516,25 @@ function cerrar(id){document.getElementById(id).classList.remove("visible")}
 /* FLOR EN VIVO */
 const FCX=250,FCY=250;
 const dots={};
+
+// Iconos SVG con paths internos (sin width/height fijos para que escalen bien)
+const ICO_FLOR={
+  db:'<path d="M4 5c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5" fill="none" stroke-width="1.5"/>',
+  py:'<path d="M8 6l-5 6 5 6M16 6l5 6-5 6" fill="none" stroke-width="1.8"/>',
+  pq:'<path d="M3 8h13l-3-3M21 16H8l3 3" fill="none" stroke-width="1.8"/>',
+  sheet:'<path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18" fill="none" stroke-width="1.5"/>',
+  xls:'<path d="M3 3h18v18H3zM9 3v18M3 9h18M13 13l4 4M17 13l-4 4" fill="none" stroke-width="1.5"/>',
+  gas:'<path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="none" stroke-width="1.5"/>',
+  js:'<path d="M8 4c-2 0-2 2-2 3v3c0 1-1 2-2 2 1 0 2 1 2 2v3c0 1 0 3 2 3M16 4c2 0 2 2 2 3v3c0 1 1 2 2 2-1 0-2 1-2 2v3c0 1 0 3-2 3" fill="none" stroke-width="1.5"/>',
+  css:'<path d="M3 3h13v13H3zM8 8h13v13H8z" fill="none" stroke-width="1.5"/>',
+  html:'<path d="M9 7l-5 5 5 5M15 7l5 5-5 5M13 4l-2 16" fill="none" stroke-width="1.5"/>',
+  arch:'<circle cx="5" cy="5" r="2.5" fill="none" stroke-width="1.5"/><circle cx="19" cy="5" r="2.5" fill="none" stroke-width="1.5"/><circle cx="12" cy="19" r="2.5" fill="none" stroke-width="1.5"/><path d="M7 6.5l3.5 9M17 6.5l-3.5 9M7.5 5h9" fill="none" stroke-width="1.5"/>'
+};
+
 function construirFlor(){
-  const svg=document.getElementById("flor");
+  const svg=document.getElementById("flor");if(!svg)return;
   const doms=Object.entries(DOMINIOS);
-  const R_INT=70;      // radio interno (donde nace el pétalo, junto al núcleo)
-  const R_EXT=215;     // radio externo (punta del pétalo)
-  const R_LBL=232;     // donde va la etiqueta
+  const R_INT=72, R_EXT=210, R_LBL=232;
   let s="";
 
   doms.forEach(([id,d],i)=>{
@@ -452,54 +544,45 @@ function construirFlor(){
     const cy=FCY+Math.sin(ang)*((R_INT+R_EXT)/2);
     const lx=FCX+Math.cos(ang)*R_LBL;
     const ly=FCY+Math.sin(ang)*R_LBL;
-    const px=FCX+Math.cos(ang)*(R_EXT-22); // punta del pétalo (icono)
-    const py=FCY+Math.sin(ang)*(R_EXT-22);
-    const rx=(R_EXT-R_INT)/2;              // largo del pétalo
-    const ry=30;                            // ancho del pétalo
+    const ix=FCX+Math.cos(ang)*(R_EXT-32);
+    const iy=FCY+Math.sin(ang)*(R_EXT-32);
+    const rx=(R_EXT-R_INT)/2;
+    const ry=28;
 
-    // Pétalo (elipse rotada apuntando hacia afuera)
     s+=`<g id="grp-${id}">
       <ellipse id="petalo-${id}" class="petalo"
         cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${rx}" ry="${ry}"
         transform="rotate(${angDeg.toFixed(1)} ${cx.toFixed(1)} ${cy.toFixed(1)})"
         fill="#15151A" stroke="#2A2A30" stroke-width="1.4"/>
-      <g id="dots-${id}" opacity="0.25"></g>
-      <g transform="translate(${(px-9).toFixed(1)},${(py-9).toFixed(1)}) scale(0.8)" color="#5A5A66" id="ic-${id}" style="pointer-events:none">${IC[d.icono]}</g>
+      <g id="dots-${id}" opacity="0.3"></g>
+      <svg id="ic-${id}" x="${(ix-9).toFixed(1)}" y="${(iy-9).toFixed(1)}" width="18" height="18" viewBox="0 0 24 24" overflow="visible">
+        <g stroke="#5A5A66" stroke-linecap="round" stroke-linejoin="round">${ICO_FLOR[d.icono]||ICO_FLOR.arch}</g>
+      </svg>
       <text id="lbl-${id}" class="flor-lbl" x="${lx.toFixed(1)}" y="${(ly+3).toFixed(1)}" text-anchor="middle">${d.n.split(" ")[0].toUpperCase()}</text>
     </g>`;
 
-    // 10 puntos pequeños alineados a lo largo del pétalo (en su eje)
-    // cos/sin del ángulo definen la dirección "hacia afuera"
     for(let j=0;j<10;j++){
-      // posición a lo largo del eje del pétalo, desde 30% al 90% de su largo
       const t=0.3+(j/9)*0.6;
       const dist=R_INT+(R_EXT-R_INT)*t;
       const dx=FCX+Math.cos(ang)*dist;
       const dy=FCY+Math.sin(ang)*dist;
-      // pequeña separación lateral para que no estén todos en línea recta
-      const lateral=((j%2)*2-1)*4; // alterna -4 / +4
+      const lateral=((j%2)*2-1)*3.5;
       const lx2=dx+Math.cos(ang+Math.PI/2)*lateral;
       const ly2=dy+Math.sin(ang+Math.PI/2)*lateral;
-      const aId=`${id}_${j}`;
-      dots[aId]={x:lx2,y:ly2,dom:id};
+      dots[`${id}_${j}`]={x:lx2,y:ly2,dom:id};
     }
-    // Generar los círculos DENTRO del grupo del dominio (heredan opacidad)
     let pts="";
     for(let j=0;j<10;j++){
       const k=`${id}_${j}`;
-      pts+=`<circle id="dot-${k}" cx="${dots[k].x.toFixed(1)}" cy="${dots[k].y.toFixed(1)}" r="2.4" fill="#3A3A42"/>`;
+      pts+=`<circle id="dot-${k}" cx="${dots[k].x.toFixed(1)}" cy="${dots[k].y.toFixed(1)}" r="2.2" fill="#3A3A42"/>`;
     }
-    // insertarlos dentro del <g id="dots-${id}">
-    s=s.replace(`<g id="dots-${id}" opacity="0.25"></g>`,`<g id="dots-${id}" opacity="0.25">${pts}</g>`);
+    s=s.replace(`<g id="dots-${id}" opacity="0.3"></g>`,`<g id="dots-${id}" opacity="0.3">${pts}</g>`);
   });
 
-  // Capa de líneas de debate (se llena en vivo)
   s+=`<g id="flor-deb"></g>`;
-
-  // Núcleo central
-  s+=`<circle cx="${FCX}" cy="${FCY}" r="46" fill="#E11D2E"/>
-      <circle cx="${FCX}" cy="${FCY}" r="46" fill="none" stroke="#fff" stroke-width="1" opacity="0.15"/>
-      <text x="${FCX}" y="${FCY-2}" text-anchor="middle" fill="#fff" font-size="15" font-family="Bebas Neue" letter-spacing="2">NÚCLEO</text>
+  s+=`<circle cx="${FCX}" cy="${FCY}" r="48" fill="#E11D2E"/>
+      <circle cx="${FCX}" cy="${FCY}" r="48" fill="none" stroke="#fff" stroke-width="1" opacity="0.15"/>
+      <text x="${FCX}" y="${FCY-2}" text-anchor="middle" fill="#fff" font-size="16" font-family="Bebas Neue" letter-spacing="2">NÚCLEO</text>
       <text x="${FCX}" y="${FCY+14}" text-anchor="middle" fill="#fff" font-size="9" font-family="Barlow" opacity="0.85">1000 agentes</text>`;
 
   svg.innerHTML=s;
@@ -508,15 +591,16 @@ function construirFlor(){
 function petalo(id,estado){
   const p=document.getElementById("petalo-"+id);if(!p)return;
   const lbl=document.getElementById("lbl-"+id);
-  const ic=document.getElementById("ic-"+id);
+  const icSvg=document.getElementById("ic-"+id);
   const dotsG=document.getElementById("dots-"+id);
+  const setIcoColor=(c)=>{ if(icSvg){ const g=icSvg.querySelector("g"); if(g) g.setAttribute("stroke",c); } };
   if(estado==="trabajo"){
     p.setAttribute("fill","rgba(225,29,46,.18)");
     p.setAttribute("stroke","#E11D2E");
     p.setAttribute("stroke-width","2");
     p.classList.add("pulso");
     lbl?.classList.add("on");
-    if(ic) ic.setAttribute("color","#E11D2E");
+    setIcoColor("#E11D2E");
     if(dotsG) dotsG.setAttribute("opacity","1");
   } else if(estado==="listo"){
     p.setAttribute("fill","rgba(46,213,115,.10)");
@@ -524,7 +608,7 @@ function petalo(id,estado){
     p.setAttribute("stroke-width","1.5");
     p.classList.remove("pulso");
     lbl?.classList.add("on");
-    if(ic) ic.setAttribute("color","#2ED573");
+    setIcoColor("#2ED573");
     if(dotsG) dotsG.setAttribute("opacity","1");
   } else {
     p.setAttribute("fill","#15151A");
@@ -532,8 +616,8 @@ function petalo(id,estado){
     p.setAttribute("stroke-width","1.4");
     p.classList.remove("pulso");
     lbl?.classList.remove("on");
-    if(ic) ic.setAttribute("color","#5A5A66");
-    if(dotsG) dotsG.setAttribute("opacity","0.25");
+    setIcoColor("#5A5A66");
+    if(dotsG) dotsG.setAttribute("opacity","0.3");
   }
 }
 
@@ -577,12 +661,42 @@ function florReset(){
   florDebate(null);
 }
 function dTab(t){
-  document.getElementById("t-flor").classList.toggle("sel",t==="flor");
+  document.getElementById("t-ctx").classList.toggle("sel",t==="ctx");
   document.getElementById("t-hist").classList.toggle("sel",t==="hist");
-  document.getElementById("d-flor").style.display=t==="flor"?"flex":"none";
+  document.getElementById("ctx-vista").style.display=t==="ctx"?"block":"none";
   document.getElementById("hist-vista").style.display=t==="hist"?"block":"none";
-  document.getElementById("dz-info").style.display=t==="flor"?"block":"none";
   if(t==="hist")pintarHistorial();
+  if(t==="ctx")pintarContextoVista();
+}
+
+function toggleFlor(){
+  const o=document.getElementById("flor-overlay");
+  o.classList.toggle("visible");
+}
+
+/* PANEL DE CONTEXTO (vista principal por defecto) */
+function pintarContextoVista(){
+  // Skills
+  const sk=skills();
+  document.getElementById("ctx-skills").innerHTML=sk.length
+    ? sk.map(s=>`<div class="ctx-item"><span class="estado-pt ${s.activa?'':'off'}"></span><span class="nom">${esc(s.nombre)}</span><span class="det">${s.activa?'activa':'pausada'}</span></div>`).join("")
+    : '<div class="ctx-vacio">Sin skills cargadas</div>';
+  // Archivos de contexto (sesión)
+  const ct=ctxs();
+  document.getElementById("ctx-archivos").innerHTML=ct.length
+    ? ct.map(c=>`<div class="ctx-item"><span class="estado-pt"></span><span class="nom">${esc(c.nombre)}</span><span class="det">${Math.round((c.contenido||"").length/100)/10}k</span></div>`).join("")
+    : '<div class="ctx-vacio">Sin archivos cargados en esta sesión</div>';
+  // Conectores
+  const co=conectores();
+  document.getElementById("ctx-conects").innerHTML=co.length
+    ? co.map(c=>`<div class="ctx-item"><span class="estado-pt"></span><span class="nom">${esc(c.nombre)}</span><span class="det">Drive</span></div>`).join("")
+    : '<div class="ctx-vacio">Sin conectores configurados</div>';
+  // Proveedores con estado
+  const provs=Object.entries(PROVEEDORES).map(([id,p])=>{
+    const ok=!!getProviderKey(id);
+    return `<div class="ctx-item"><span class="estado-pt ${ok?'':'off'}"></span><span class="nom">${p.nombre}</span><span class="det">${ok?'conectado':'sin key'}</span></div>`;
+  }).join("");
+  document.getElementById("ctx-prov").innerHTML=provs;
 }
 
 /* HISTORIAL (memoria) */
@@ -622,75 +736,135 @@ async function enviar(){
   ocupado=true;document.getElementById("btn-env").disabled=true;
   ta.value="";ta.style.height="auto";florReset();
   msgUser(pedido);
-  const caja=msgSys(`<div class="proceso"></div>`).querySelector(".proceso");
-  const paso=(t,fin=false)=>{caja.insertAdjacentHTML("beforeend",`<div class="paso">${fin?'<span class="ok">✓</span>':'<span class="sp"></span>'} ${t}</div>`);scrollFeed();return caja.lastElementChild;};
-  const ok=el=>{const s=el.querySelector(".sp");if(s)s.outerHTML='<span class="ok">✓</span>';};
 
+  // Razonamiento colapsable (oculto por defecto) — aquí van TODOS los detalles internos
+  const respMsg = document.createElement("div");
+  respMsg.className = "msg sys";
+  respMsg.innerHTML = `<div class="av">${IC.hex}</div><div class="ct">
+    <div class="proceso-mini" id="prog-mini"><div class="sp"></div><span id="prog-txt">Iniciando colmena...</span></div>
+    <div class="razon-box" style="display:none" id="razon-box">
+      <button class="razon-trigger" onclick="toggleRazon()"><span id="razon-flecha">▶</span> Ver razonamiento de la colmena <span class="meta" id="razon-meta"></span></button>
+      <div class="razon-contenido" id="razon-contenido"></div>
+    </div>
+    <div id="resp-final"></div>
+  </div>`;
+  feedIn.appendChild(respMsg);
+  document.getElementById("bienv")?.remove();
+  scrollFeed();
+
+  const razon = document.getElementById("razon-contenido");
+  const progTxt = document.getElementById("prog-txt");
+  const setProg = (t)=>{ progTxt.innerHTML = t; };
+  const addPaso = (t,fin=false)=>{
+    razon.insertAdjacentHTML("beforeend",`<div class="razon-paso">${fin?'<span class="ok">✓</span>':'<span class="sp"></span>'} ${t}</div>`);
+  };
+  const finPaso = ()=>{ const p=razon.querySelectorAll(".razon-paso .sp"); if(p.length){ p[p.length-1].outerHTML='<span class="ok">✓</span>'; } };
+  const addBurbuja = (nombre,fase,texto)=>{
+    razon.insertAdjacentHTML("beforeend",
+      `<div class="razon-burbuja"><b class="nom">${esc(nombre)}<span class="fase">${fase}</span></b><div class="lin">${esc(texto)}</div></div>`);
+  };
+
+  let agentesUsados = 0;
   try{
     const skillsCtx=construirContextoSkills();
 
     /* 1. Coordinador clasifica */
-    let p1=paso("Núcleo clasificando el problema...");
+    setProg("Núcleo clasificando el problema...");
+    addPaso("Núcleo coordinador clasificando...");
     const raw=await llamarIA(roles.coord,COORDINADOR_SYSTEM,pedido,300);
     let cl;try{cl=JSON.parse(raw.replace(/```json|```/g,"").trim());}catch{cl={dominio:"arq",complejidad:"moderada"};}
     if(!COLMENA[cl.dominio])cl.dominio="arq";
-    ok(p1);dominioActivo=cl.dominio;
+    dominioActivo=cl.dominio;
     document.getElementById("dom-"+cl.dominio).classList.add("on");petalo(cl.dominio,"trabajo");
-    paso(`Dominio: <b style="color:var(--rojo)">${DOMINIOS[cl.dominio].n.toUpperCase()}</b> · ${cl.complejidad}`,true);
+    finPaso();
+    addPaso(`Dominio: <b style="color:var(--rojo)">${DOMINIOS[cl.dominio].n}</b> · ${cl.complejidad}`,true);
 
     const N=+document.getElementById("sel-n").value;
     const escuadron=seleccionarEscuadron(cl.dominio,N);
+    agentesUsados = N;
 
     /* 2. Ronda 1: propuestas */
-    let p2=paso(`Ronda 1 · ${N} agentes proponiendo en paralelo...`);
-    p2.insertAdjacentHTML("afterend",`<div class="barra"><div id="bp"></div></div><div class="paso" id="cont">0 / ${N}</div>`);
+    setProg(`Ronda 1: ${N} agentes proponiendo en paralelo...`);
+    addPaso(`Ronda 1 · ${N} agentes proponiendo en paralelo`);
     escuadron.forEach(a=>dotEstado(a.id,"trabajo"));
+    let hechas = 0;
     const props=await poolParalelo(escuadron.map(a=>async()=>{
       const t=await llamarIA(roles.enjambre,modoActual==="pensar"?promptIdea(a,skillsCtx):promptPropuesta(a,skillsCtx),pedido,420);
       dotEstado(a.id,"listo");
+      hechas++;
+      setProg(`Ronda 1: ${hechas} / ${N} propuestas...`);
       return {ag:a,texto:t,conf:parseConf(t)};
-    }),5,(h,t)=>{document.getElementById("bp").style.width=(h/t*100)+"%";document.getElementById("cont").textContent=`${h} / ${t} propuestas`;});
-    ok(p2);
+    }),5);
+    finPaso();
     const propsOk=props.filter(x=>x&&!x.error);
-    // burbujas de las top 5 más confiadas
-    propsOk.sort((a,b)=>b.conf-a.conf).slice(0,5).forEach(p=>burbujaAgente(p.ag.nombreCorto,DOMINIOS[p.ag.dominio].icono,"propuesta",p.texto.slice(0,400)+(p.texto.length>400?"…":"")));
+    // Las top 5 propuestas más confiadas van al razonamiento
+    propsOk.sort((a,b)=>b.conf-a.conf).slice(0,5).forEach(p=>
+      addBurbuja(p.ag.nombreCorto,"propuesta",p.texto.slice(0,500)+(p.texto.length>500?"…":""))
+    );
 
     /* 3. Ronda 2: DEBATE entre agentes */
-    let p3=paso(`Ronda 2 · debate cruzado entre los ${propsOk.length} agentes...`);
+    setProg(`Ronda 2: debate cruzado entre ${propsOk.length} agentes...`);
+    addPaso(`Ronda 2 · debate cruzado entre los ${propsOk.length} agentes`);
     florDebate(cl.dominio,propsOk.map(x=>x.ag.id));
     propsOk.forEach(x=>dotEstado(x.ag.id,"trabajo"));
-    // Para no explotar tokens: cada agente lee un resumen de las top 6 propuestas
     const muro=propsOk.slice(0,8).map(x=>`[${x.ag.nombreCorto}]:\n${x.texto.slice(0,280)}`).join("\n\n");
+    let hechasDeb = 0;
     const debates=await poolParalelo(propsOk.map(x=>async()=>{
       const t=await llamarIA(roles.enjambre,promptDebate(x.ag,skillsCtx),
         `PROBLEMA:\n${pedido}\n\nPROPUESTAS DE TUS COLEGAS:\n${muro}`,300);
       dotEstado(x.ag.id,"listo");
+      hechasDeb++;
+      setProg(`Ronda 2: ${hechasDeb} / ${propsOk.length} debates...`);
       return {ag:x.ag,texto:t};
     }),5);
-    ok(p3);florDebate(cl.dominio,null);
+    finPaso();
+    florDebate(cl.dominio,null);
     const debatesOk=debates.filter(x=>x&&!x.error);
-    debatesOk.slice(0,4).forEach(d=>burbujaAgente(d.ag.nombreCorto,DOMINIOS[d.ag.dominio].icono,"debate",d.texto.slice(0,350)+(d.texto.length>350?"…":"")));
+    // Top 4 debates al razonamiento
+    debatesOk.slice(0,4).forEach(d=>
+      addBurbuja(d.ag.nombreCorto,"debate",d.texto.slice(0,400)+(d.texto.length>400?"…":""))
+    );
 
     /* 4. Sintetizador */
-    let p4=paso(`Sintetizador fusionando las ${propsOk.length} mejores soluciones y el debate...`);
+    setProg(`Sintetizador fusionando ${propsOk.length} soluciones...`);
+    addPaso(`Sintetizador fusionando las mejores soluciones`);
     const topProps=propsOk.slice(0,8).map(x=>`═══ [${x.ag.nombreCorto}] (conf ${x.conf}) ═══\n${x.texto}`).join("\n\n");
     const topDeb=debatesOk.slice(0,8).map(x=>`[${x.ag.nombreCorto}]: ${x.texto.slice(0,300)}`).join("\n\n");
     const sys=modoActual==="pensar"?ESTRATEGA_SYSTEM:SINTETIZADOR_SYSTEM;
     const final=await llamarIA(roles.sintesis,sys+"\n"+skillsCtx,
       `PROBLEMA:\n${pedido}\n\nPROPUESTAS:\n${topProps}\n\nDEBATE:\n${topDeb}`,
       3800,PROVEEDORES[roles.sintesis].modeloSintesis);
-    ok(p4);
+    finPaso();
     petalo(cl.dominio,"listo");
-    paso("Colmena finalizada",true);
-    const ct=msgSys(marked.parse(final));
-    ct.querySelectorAll("pre").forEach(pre=>{
+
+    /* 5. Mostrar respuesta final */
+    document.getElementById("prog-mini").remove();
+    const razonBox = document.getElementById("razon-box");
+    razonBox.style.display = "block";
+    document.getElementById("razon-meta").textContent = `${DOMINIOS[cl.dominio].n} · ${agentesUsados} agentes · ${propsOk.length+debatesOk.length} burbujas internas`;
+    const respFinal = document.getElementById("resp-final");
+    respFinal.innerHTML = marked.parse(final);
+    respFinal.querySelectorAll("pre").forEach(pre=>{
       pre.insertAdjacentHTML("afterbegin",'<button class="btn-cp" onclick="cp(this)">copiar</button>');
     });
+    scrollFeed();
     guardarEnHist(pedido,final,`${DOMINIOS[cl.dominio].n} · ${N} agentes · ${modoActual}`);
   }catch(e){
-    msgSys(`<p style="color:var(--rojo)"><b>Error:</b> ${esc(e.message)}</p>`);
+    const pm = document.getElementById("prog-mini");
+    if(pm) pm.outerHTML = `<p style="color:var(--rojo)"><b>Error:</b> ${esc(e.message)}</p>`;
   }finally{
     ocupado=false;document.getElementById("btn-env").disabled=false;
+  }
+}
+
+function toggleRazon(){
+  const c=document.getElementById("razon-contenido");
+  const t=document.querySelector(".razon-trigger");
+  const f=document.getElementById("razon-flecha");
+  if(c.classList.contains("abierto")){
+    c.classList.remove("abierto"); t.classList.remove("abierto"); f.textContent="▶";
+  } else {
+    c.classList.add("abierto"); t.classList.add("abierto"); f.textContent="▼";
   }
 }
 function cp(b){navigator.clipboard.writeText(b.parentElement.querySelector("code").innerText);b.textContent="✓";setTimeout(()=>b.textContent="copiar",1500);}
@@ -699,7 +873,7 @@ function usarEj(b){document.getElementById("entrada").value=b.querySelector("i")
 document.getElementById("entrada").addEventListener("input",function(){this.style.height="auto";this.style.height=Math.min(this.scrollHeight,160)+"px";});
 
 /* INIT */
-pintarModos();pintarDominios();pintarSkills();pintarCtx();pintarConectores();construirFlor();estadoApi();actualizarNota();setModo("solucionar");
+pintarModos();pintarDominios();pintarSkills();pintarCtx();pintarConectores();construirFlor();estadoApi();actualizarNota();setModo("solucionar");pintarContextoVista();
 document.getElementById("ejs").innerHTML=EJEMPLOS.map(([ic,t])=>`<button class="ej" onclick="usarEj(this)">${IC[ic]}<i style="font-style:normal">${t}</i></button>`).join("");
 </script>
 </body>
