@@ -99,18 +99,34 @@ svg.ic{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.75;st
 .ctx-item .det{font-size:10.5px;color:var(--texto2);font-family:var(--fm)}
 .ctx-vacio{font-size:11.5px;color:var(--texto2);text-align:center;padding:8px;font-style:italic}
 
-/* COLMENA FLOTANTE */
-.flor-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:90;padding:20px;backdrop-filter:blur(4px)}
-.flor-overlay.visible{display:flex}
-.flor-card{background:var(--panel);border:1px solid var(--borde);border-radius:16px;width:100%;max-width:620px;display:flex;flex-direction:column;max-height:92vh}
-.flor-card-top{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--borde)}
-.flor-card-titulo{font-family:var(--fd);font-size:18px;letter-spacing:2px;color:var(--rojo);display:flex;align-items:center;gap:9px}
-.flor-cerrar{background:transparent;border:none;color:var(--texto2);font-size:26px;cursor:pointer;line-height:1;padding:0 6px}
+/* PANEL DERECHO PLEGABLE (Contexto / Historial) */
+.derecha{width:380px;min-width:380px;display:flex;flex-direction:column;background:var(--panel);border-left:1px solid var(--borde);transition:margin-right .3s ease}
+.derecha.oculto{margin-right:-380px}
+
+/* PANEL FLOR PLEGABLE (segundo panel, al lado del derecho) */
+.flor-panel{width:440px;min-width:440px;display:flex;flex-direction:column;background:var(--panel);border-left:1px solid var(--borde);transition:margin-right .3s ease}
+.flor-panel.oculto{margin-right:-440px;display:none}
+.flor-panel.visible{display:flex}
+.flor-panel-top{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--borde)}
+.flor-panel-titulo{font-family:var(--fd);font-size:17px;letter-spacing:2px;color:var(--rojo);display:flex;align-items:center;gap:8px}
+.flor-panel-titulo .estado-vivo{font-family:var(--fb);font-size:10px;color:var(--texto2);letter-spacing:1px;background:var(--panel3);padding:3px 9px;border-radius:10px;margin-left:4px}
+.flor-panel-titulo .estado-vivo.activo{color:#fff;background:var(--rojo);animation:pul 1s infinite}
+.flor-cerrar{background:transparent;border:none;color:var(--texto2);font-size:22px;cursor:pointer;line-height:1;padding:0 6px}
 .flor-cerrar:hover{color:var(--rojo)}
-.flor-card-zona{flex:1;padding:14px;display:flex;align-items:center;justify-content:center;min-height:480px}
-.flor-card-ley{display:flex;gap:14px;padding:12px 18px;border-top:1px solid var(--borde);font-size:11px;color:var(--texto2);flex-wrap:wrap;justify-content:center}
-.flor-card-ley span{display:flex;align-items:center;gap:5px}
-.flor-card-ley i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.flor-panel-zona{flex:1;display:flex;align-items:center;justify-content:center;padding:14px;overflow:hidden}
+.flor-panel-zona svg{max-width:100%;max-height:100%}
+.flor-panel-ley{display:flex;gap:10px;padding:10px 14px;border-top:1px solid var(--borde);font-size:10.5px;color:var(--texto2);flex-wrap:wrap;justify-content:center}
+.flor-panel-ley span{display:flex;align-items:center;gap:5px}
+.flor-panel-ley i{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+/* BOTONES FLOTANTES PARA ABRIR PANELES */
+.tab-floats{position:absolute;top:14px;right:14px;display:flex;gap:6px;z-index:5}
+.tab-float{background:var(--panel2);border:1px solid var(--borde);color:var(--texto2);font-size:11.5px;font-weight:600;padding:7px 12px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px;backdrop-filter:blur(8px)}
+.tab-float:hover{border-color:var(--rojo);color:var(--rojo)}
+.tab-float.activo{background:var(--rojodim);border-color:var(--rojo);color:var(--rojo)}
+.tab-float svg{width:14px;height:14px}
+.tab-float .punto-vivo{width:7px;height:7px;border-radius:50%;background:var(--verde);box-shadow:0 0 6px var(--verde)}
+.tab-float .punto-vivo.activo{background:var(--rojo);box-shadow:0 0 8px var(--rojo);animation:pul 1s infinite}
 
 /* RAZONAMIENTO COLAPSABLE (acordeón) */
 .razon-box{background:var(--panel2);border:1px solid var(--borde);border-radius:10px;margin-top:8px;overflow:hidden}
@@ -203,7 +219,11 @@ svg.ic{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.75;st
   </div>
 </aside>
 
-<main class="centro">
+<main class="centro" id="centro">
+  <div class="tab-floats">
+    <button class="tab-float activo" id="tf-ctx" onclick="toggleDerecha()" title="Mostrar/ocultar contexto"><span id="i-tf1"></span>Contexto</button>
+    <button class="tab-float" id="tf-flor" onclick="toggleFlor()" title="Mostrar/ocultar la colmena en vivo"><span id="i-tf2"></span><span class="punto-vivo" id="punto-vivo" style="display:none"></span>Colmena</button>
+  </div>
   <div class="feed" id="feed">
     <div class="feed-in" id="feed-in">
       <div class="bienv" id="bienv">
@@ -226,11 +246,11 @@ svg.ic{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.75;st
   </div>
 </main>
 
-<section class="derecha">
+<section class="derecha" id="derecha">
   <div class="dt">
     <button class="dt-tab sel" id="t-ctx" onclick="dTab('ctx')"><span id="i-ctxtab"></span>Contexto</button>
     <button class="dt-tab" id="t-hist" onclick="dTab('hist')"><span id="i-hist"></span>Historial</button>
-    <button class="dt-tab" style="margin-left:auto" id="btn-flor" onclick="toggleFlor()"><span id="i-flortab"></span>Ver colmena</button>
+    <button class="flor-cerrar" style="margin-left:auto" onclick="toggleDerecha()" title="Cerrar">×</button>
   </div>
 
   <div id="ctx-vista" style="flex:1;overflow-y:auto;padding:18px">
@@ -255,21 +275,24 @@ svg.ic{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.75;st
   <div id="hist-vista" style="display:none;flex:1;overflow-y:auto;padding:14px 18px"></div>
 </section>
 
-<!-- COLMENA FLOTANTE (oculta por defecto) -->
-<div class="flor-overlay" id="flor-overlay">
-  <div class="flor-card">
-    <div class="flor-card-top">
-      <div class="flor-card-titulo"><span id="i-flor"></span>Colmena en vivo</div>
-      <button class="flor-cerrar" onclick="toggleFlor()">×</button>
+<!-- PANEL FLOR PLEGABLE (al lado del Contexto) -->
+<aside class="flor-panel oculto" id="flor-panel">
+  <div class="flor-panel-top">
+    <div class="flor-panel-titulo">
+      <span id="i-flor-panel"></span>Colmena
+      <span class="estado-vivo" id="flor-estado">en reposo</span>
     </div>
-    <div class="flor-card-zona"><svg id="flor" width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet"></svg></div>
-    <div class="flor-card-ley">
-      <span><i style="background:#3A3A42"></i>en reserva</span>
-      <span><i style="background:var(--rojo)"></i>trabajando</span>
-      <span><i style="background:var(--verde)"></i>completado</span>
-    </div>
+    <button class="flor-cerrar" onclick="toggleFlor()">×</button>
   </div>
-</div>
+  <div class="flor-panel-zona">
+    <svg id="flor" width="100%" height="100%" viewBox="0 0 500 500" preserveAspectRatio="xMidYMid meet"></svg>
+  </div>
+  <div class="flor-panel-ley">
+    <span><i style="background:#3A3A42"></i>en reserva</span>
+    <span><i style="background:var(--rojo)"></i>trabajando</span>
+    <span><i style="background:var(--verde)"></i>completado</span>
+  </div>
+</aside>
 
 <!-- MODAL SKILL -->
 <div class="mf" id="m-skill"><div class="modal">
@@ -351,7 +374,7 @@ skill:'<svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path 
 cloud:'<svg class="ic" viewBox="0 0 24 24"><path d="M7 18a4.5 4.5 0 010-9 6 6 0 0111.6 1.5A3.8 3.8 0 0118 18z"/></svg>'
 };
 ["lg","lgg"].forEach(id=>document.getElementById(id).innerHTML=IC.hex);
-[["i-plus","plus"],["i-gear","gear"],["i-send","send"],["i-flor","flor"],["i-hist","hist"],["i-ctxtab","doc"],["i-flortab","flor"],["i-cb1","skill"],["i-cb2","doc"],["i-cb3","cloud"],["i-cb4","gear"]].forEach(([a,b])=>{const el=document.getElementById(a);if(el)el.innerHTML=IC[b]||"";});
+[["i-plus","plus"],["i-gear","gear"],["i-send","send"],["i-flor","flor"],["i-hist","hist"],["i-ctxtab","doc"],["i-flortab","flor"],["i-cb1","skill"],["i-cb2","doc"],["i-cb3","cloud"],["i-cb4","gear"],["i-tf1","doc"],["i-tf2","flor"],["i-flor-panel","flor"]].forEach(([a,b])=>{const el=document.getElementById(a);if(el)el.innerHTML=IC[b]||"";});
 
 /* ESTADO */
 let ocupado=false, dominioActivo=null;
@@ -670,8 +693,53 @@ function dTab(t){
 }
 
 function toggleFlor(){
-  const o=document.getElementById("flor-overlay");
-  o.classList.toggle("visible");
+  const p=document.getElementById("flor-panel");
+  const b=document.getElementById("tf-flor");
+  if(p.classList.contains("oculto")){
+    p.classList.remove("oculto");
+    p.classList.add("visible");
+    b.classList.add("activo");
+  } else {
+    p.classList.add("oculto");
+    p.classList.remove("visible");
+    b.classList.remove("activo");
+  }
+}
+
+function abrirFlor(){
+  const p=document.getElementById("flor-panel");
+  if(p.classList.contains("oculto")) toggleFlor();
+}
+
+function toggleDerecha(){
+  const d=document.getElementById("derecha");
+  const b=document.getElementById("tf-ctx");
+  if(d.classList.contains("oculto")){
+    d.classList.remove("oculto");
+    b.classList.add("activo");
+  } else {
+    d.classList.add("oculto");
+    b.classList.remove("activo");
+  }
+}
+
+function setEstadoColmena(estado){
+  // estado: "reposo" | "trabajando" | "listo"
+  const e=document.getElementById("flor-estado");
+  const pv=document.getElementById("punto-vivo");
+  const btn=document.getElementById("tf-flor");
+  if(!e)return;
+  if(estado==="trabajando"){
+    e.textContent="en vivo";e.classList.add("activo");
+    if(pv){pv.style.display="inline-block";pv.classList.add("activo");}
+    btn?.classList.add("activo-leve");
+  } else if(estado==="listo"){
+    e.textContent="finalizado";e.classList.remove("activo");
+    if(pv){pv.classList.remove("activo");pv.style.background="var(--verde)";pv.style.boxShadow="0 0 6px var(--verde)";pv.style.display="inline-block";}
+  } else {
+    e.textContent="en reposo";e.classList.remove("activo");
+    if(pv){pv.style.display="none";}
+  }
 }
 
 /* PANEL DE CONTEXTO (vista principal por defecto) */
@@ -735,13 +803,18 @@ async function enviar(){
   if(!getProviderKey(roles.coord)||!getProviderKey(roles.enjambre)||!getProviderKey(roles.sintesis)){abrirConfig();return;}
   ocupado=true;document.getElementById("btn-env").disabled=true;
   ta.value="";ta.style.height="auto";florReset();
+  setEstadoColmena("trabajando");
   msgUser(pedido);
 
   // Razonamiento colapsable (oculto por defecto) — aquí van TODOS los detalles internos
   const respMsg = document.createElement("div");
   respMsg.className = "msg sys";
   respMsg.innerHTML = `<div class="av">${IC.hex}</div><div class="ct">
-    <div class="proceso-mini" id="prog-mini"><div class="sp"></div><span id="prog-txt">Iniciando colmena...</span></div>
+    <div class="proceso-mini" id="prog-mini">
+      <div class="sp"></div>
+      <span id="prog-txt">Iniciando colmena...</span>
+      <button onclick="abrirFlor()" id="btn-ver-vivo" style="margin-left:auto;background:transparent;border:1px solid var(--borde);color:var(--rojo);font-size:10.5px;padding:3px 9px;border-radius:6px;cursor:pointer;font-family:var(--fb)">ver colmena en vivo</button>
+    </div>
     <div class="razon-box" style="display:none" id="razon-box">
       <button class="razon-trigger" onclick="toggleRazon()"><span id="razon-flecha">▶</span> Ver razonamiento de la colmena <span class="meta" id="razon-meta"></span></button>
       <div class="razon-contenido" id="razon-contenido"></div>
@@ -849,9 +922,11 @@ async function enviar(){
     });
     scrollFeed();
     guardarEnHist(pedido,final,`${DOMINIOS[cl.dominio].n} · ${N} agentes · ${modoActual}`);
+    setEstadoColmena("listo");
   }catch(e){
     const pm = document.getElementById("prog-mini");
     if(pm) pm.outerHTML = `<p style="color:var(--rojo)"><b>Error:</b> ${esc(e.message)}</p>`;
+    setEstadoColmena("listo");
   }finally{
     ocupado=false;document.getElementById("btn-env").disabled=false;
   }
