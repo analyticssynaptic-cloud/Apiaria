@@ -1,212 +1,240 @@
 /* ════════════════════════════════════════════════════════════
-   ApiarIA Studio · hive.js
-   Colmena creativa de HTML con DEBATE entre agentes:
-   Propuestas → Debate cruzado → Plan → Construcción → Auditoría → Refinado
+   ApiarIA Tech Swarm · hive.js — COLMENA POTENTE DE 1000 AGENTES
+   10 dominios × 10 especialistas × 10 enfoques tácticos
+   con DEBATE cruzado entre agentes y modos de trabajo.
    ════════════════════════════════════════════════════════════ */
 
-/* ── 10 AGENTES CREATIVOS ── */
-const CREW = [
-  { id:"arq",   nombre:"Arquitecto",       icono:"html",  rol:"arquitectura HTML semántica: estructura de secciones, jerarquía, orden del documento" },
-  { id:"arte",  nombre:"Director de Arte", icono:"css",   rol:"dirección visual: paleta de colores, tipografía, composición, estilo gráfico, impacto visual" },
-  { id:"anim",  nombre:"Animador",         icono:"gas",   rol:"animaciones y micro-interacciones CSS/JS: transiciones, keyframes, efectos de scroll, hover, entrada" },
-  { id:"inter", nombre:"Interacción",      icono:"js",    rol:"interactividad JavaScript: estados, eventos, lógica de componentes, juegos, formularios vivos" },
-  { id:"resp",  nombre:"Responsive",       icono:"sheet", rol:"diseño responsive: mobile-first, breakpoints, layouts fluidos, touch" },
-  { id:"acc",   nombre:"Accesibilidad",    icono:"net",   rol:"accesibilidad WCAG: contraste, foco, navegación por teclado, ARIA, legibilidad" },
-  { id:"copy",  nombre:"Copywriter",       icono:"chat",  rol:"contenido y textos: titulares con gancho, microcopy, tono, storytelling" },
-  { id:"ux",    nombre:"UX",               icono:"swarm", rol:"experiencia de usuario: flujo, jerarquía de información, llamados a la acción, fricción" },
-  { id:"perf",  nombre:"Performance",      icono:"pq",    rol:"rendimiento: peso de página, render eficiente, animaciones GPU, carga" },
-  { id:"datos", nombre:"Datos",            icono:"db",    rol:"visualización de datos: gráficos, tableros, contadores, Chart.js, SVG dinámico" }
+const FORMATO = `
+REGLAS DE RESPUESTA:
+- En español, directo y técnico. Código COMPLETO sin truncar, comentado en español.
+- Estructura: ## Diagnóstico / ## Solución / ## Por qué funciona
+- Cierra con la línea exacta: CONFIANZA: 0.XX (entre 0 y 1)
+- Si el problema no es de tu dominio: dilo y pon CONFIANZA: 0.10`;
+
+const ENFOQUES = [
+  { id:"prod",   n:"Producción",  mod:"PRIORIZA: solución robusta lista para producción, manejo de errores exhaustivo." },
+  { id:"perf",   n:"Performance", mod:"PRIORIZA: la solución más rápida y eficiente en memoria/CPU. Incluye complejidad Big-O si aplica." },
+  { id:"seg",    n:"Seguridad",   mod:"PRIORIZA: seguridad. Detecta inyecciones, XSS, fugas de datos, validación de entradas." },
+  { id:"min",    n:"Minimalista", mod:"PRIORIZA: la solución más corta y simple que funcione. Cero dependencias." },
+  { id:"mod",    n:"Moderno",     mod:"PRIORIZA: sintaxis y features más modernas del lenguaje (últimas versiones estables)." },
+  { id:"compat", n:"Compatible",  mod:"PRIORIZA: máxima compatibilidad con versiones viejas y entornos limitados." },
+  { id:"qa",     n:"QA Crítico",  mod:"ACTÚA como auditor: busca edge cases, fallos ocultos y datos que rompan la solución. Propón la versión a prueba de balas." },
+  { id:"refac",  n:"Refactor",    mod:"PRIORIZA: legibilidad, mantenibilidad y arquitectura limpia del código." },
+  { id:"esc",    n:"Escalable",   mod:"PRIORIZA: que funcione igual con 10 filas que con 10 millones. Piensa en volumen." },
+  { id:"did",    n:"Didáctico",   mod:"PRIORIZA: explicar cada paso como a alguien que no es desarrollador, sin perder rigor técnico." }
 ];
 
-const REGLAS_BASE = `Trabajas para ApiarIA Studio creando piezas HTML de alto impacto.
-REGLAS TÉCNICAS INNEGOCIABLES:
-- TODO en UN solo archivo HTML (CSS y JS embebidos). Sin frameworks, sin dependencias externas salvo Google Fonts y CDNs públicos si son imprescindibles.
-- Iconos: SVG planos inline de un solo color. PROHIBIDO usar emojis como iconos de interfaz.
-- Comentarios del código en español.
-- Diseño que se sienta premium: espaciado generoso, jerarquía clara, detalles cuidados.`;
+const DOMINIOS = {
+  sql: { n:"SQL", icono:"db", esp:[
+    ["Consultas SELECT","experto en SELECT, WHERE, ORDER BY, LIMIT, alias y filtrado avanzado"],
+    ["JOINs","experto en INNER/LEFT/RIGHT/FULL JOIN, self-joins y anti-joins"],
+    ["Agregaciones","experto en GROUP BY, HAVING, COUNT/SUM/AVG, ROLLUP y CUBE"],
+    ["Subconsultas y CTEs","experto en subqueries correlacionadas, WITH, CTEs recursivas"],
+    ["Window Functions","experto en ROW_NUMBER, RANK, LAG/LEAD, particiones y running totals"],
+    ["Optimización","experto en índices, EXPLAIN PLAN, estadísticas y tuning de consultas lentas"],
+    ["DDL y Modelado","experto en CREATE TABLE, constraints, llaves, normalización y diseño de esquemas"],
+    ["Oracle","experto en Oracle SQL y PL/SQL: secuencias, MERGE, particionamiento, Autonomous DB"],
+    ["Transacciones","experto en ACID, COMMIT/ROLLBACK, bloqueos, niveles de aislamiento"],
+    ["ETL en SQL","experto en MERGE/UPSERT, staging, limpieza de datos y cargas masivas"]
+  ]},
+  python: { n:"Python", icono:"py", esp:[
+    ["Pandas","experto en DataFrames: filtrado, groupby, merge, pivot, limpieza de datos"],
+    ["Async e HTTP","experto en asyncio, httpx, aiohttp, requests, reintentos y rate limits"],
+    ["Automatización","experto en scripts de automatización: os, pathlib, shutil, schedule, Task Scheduler"],
+    ["APIs y JSON","experto en consumir/crear APIs REST, json, autenticación, paginación"],
+    ["Excel y archivos","experto en openpyxl, xlsxwriter, csv, parquet (pyarrow) y manejo de archivos"],
+    ["Bases de datos","experto en conexión a Oracle/MySQL/Postgres: oracledb, SQLAlchemy, cursores, bulk insert"],
+    ["Estructuras y algoritmos","experto en listas, dicts, sets, comprehensions, generadores y complejidad"],
+    ["Errores y logging","experto en try/except, logging, debugging, trazas y manejo robusto de fallos"],
+    ["OOP y patrones","experto en clases, dataclasses, herencia, patrones de diseño en Python"],
+    ["Cloud y OCI","experto en SDKs cloud, OCI Object Storage, firmas de peticiones, almacenamiento"]
+  ]},
+  m: { n:"Lenguaje M (Power Query)", icono:"pq", esp:[
+    ["Transformaciones base","experto en Table.SelectColumns, RenameColumns, filtrado y tipos de datos"],
+    ["Combinar consultas","experto en Table.NestedJoin, Merge, Append y claves compuestas"],
+    ["Columnas personalizadas","experto en Table.AddColumn, each, condicionales if/then/else en M"],
+    ["Pivot y Unpivot","experto en Table.Pivot, Table.UnpivotOtherColumns y reestructuración"],
+    ["Fechas en M","experto en Date.*, DateTime.*, calendarios, períodos fiscales"],
+    ["Texto en M","experto en Text.Split, Text.Combine, limpieza y extracción de patrones"],
+    ["Funciones M","experto en crear funciones personalizadas, parámetros y recursividad en M"],
+    ["Fuentes de datos","experto en Web.Contents, Excel.Workbook, Csv.Document, carpetas y APIs"],
+    ["Performance M","experto en query folding, buffers (Table.Buffer) y optimización de refresh"],
+    ["Errores en M","experto en try/otherwise, valores null, diagnóstico de errores de paso"]
+  ]},
+  sheets: { n:"Google Sheets", icono:"sheet", esp:[
+    ["Fórmulas esenciales","experto en BUSCARV/VLOOKUP, INDEX+MATCH, XLOOKUP, SI/IF anidados"],
+    ["QUERY","experto en la función QUERY: select, where, group by, pivot, label"],
+    ["ARRAYFORMULA","experto en fórmulas matriciales, rangos dinámicos y expansión automática"],
+    ["IMPORTRANGE y conexión","experto en IMPORTRANGE, IMPORTDATA, vincular hojas y permisos"],
+    ["Texto y fechas","experto en SPLIT, JOIN, REGEXEXTRACT, REGEXREPLACE, manejo de fechas"],
+    ["Filtros y dinámicas","experto en FILTER, SORT, UNIQUE, tablas dinámicas y segmentaciones"],
+    ["Formato condicional","experto en reglas con fórmula personalizada, escalas y validación de datos"],
+    ["Dashboards en Sheets","experto en gráficos, sparklines, controles y diseño de tableros"],
+    ["Sheets como BD","experto en estructurar hojas como base de datos: IDs, normalización, integridad"],
+    ["Sheets + GAS","experto en SpreadsheetApp, getValues/setValues por lotes, triggers, performance"]
+  ]},
+  excel: { n:"Excel", icono:"xls", esp:[
+    ["Fórmulas clásicas","experto en BUSCARV, INDICE+COINCIDIR, SUMAR.SI.CONJUNTO, SI.ERROR"],
+    ["Fórmulas modernas","experto en XLOOKUP, FILTER, UNIQUE, LET, LAMBDA, matrices dinámicas"],
+    ["Tablas dinámicas","experto en pivot tables, campos calculados, agrupaciones, segmentaciones"],
+    ["Power Pivot y DAX","experto en modelo de datos, relaciones, medidas DAX, CALCULATE, FILTER"],
+    ["VBA","experto en macros VBA: bucles, rangos, eventos, formularios, automatización"],
+    ["Limpieza de datos","experto en quitar duplicados, texto en columnas, normalización de datos sucios"],
+    ["Gráficos y dashboards","experto en gráficos avanzados, minigráficos, diseño de tableros ejecutivos"],
+    ["Formato condicional","experto en reglas con fórmulas, iconos, escalas, resaltado inteligente"],
+    ["Excel + Power Query","experto en importar, transformar y actualizar datos con Power Query desde Excel"],
+    ["Protección y plantillas","experto en validación, protección de hojas, plantillas corporativas"]
+  ]},
+  gas: { n:"Apps Script (GAS)", icono:"gas", esp:[
+    ["Web Apps","experto en doGet/doPost, ContentService, despliegues y versiones"],
+    ["SpreadsheetApp","experto en lectura/escritura por lotes, rangos, hojas, performance"],
+    ["Triggers","experto en triggers de tiempo, onEdit, onFormSubmit, instalables vs simples"],
+    ["CORS y fetch","experto en el patrón fetch con text/plain para evitar preflight, JSONP"],
+    ["DriveApp y archivos","experto en Drive: carpetas, permisos, blobs, conversión de archivos"],
+    ["GmailApp","experto en envío de correos, plantillas HTML, adjuntos, cuotas"],
+    ["UrlFetchApp","experto en consumir APIs externas desde GAS, headers, autenticación"],
+    ["LockService y caché","experto en concurrencia, LockService, CacheService, PropertiesService"],
+    ["HtmlService","experto en interfaces HTML servidas desde GAS, google.script.run"],
+    ["Optimización GAS","experto en límites de cuota, batching, reducir llamadas, tiempos de ejecución"]
+  ]},
+  js: { n:"JavaScript", icono:"js", esp:[
+    ["Asincronía","experto en Promises, async/await, race conditions, Promise.all/allSettled"],
+    ["DOM y eventos","experto en querySelector, delegation, listeners, render eficiente"],
+    ["Fetch y APIs","experto en fetch, headers, CORS, manejo de errores HTTP, reintentos"],
+    ["Arrays y objetos","experto en map/filter/reduce, destructuring, spread, inmutabilidad"],
+    ["Closures y scope","experto en closures, this, hoisting, módulos, contexto de ejecución"],
+    ["LocalStorage y estado","experto en persistencia local, sesiones, manejo de estado sin frameworks"],
+    ["Canvas y gráficos","experto en Canvas API, Chart.js, SVG dinámico, animaciones"],
+    ["Performance JS","experto en memory leaks, debounce/throttle, virtualización, profiling"],
+    ["Regex y strings","experto en expresiones regulares, parsing, validación de formatos"],
+    ["Single-file apps","experto en SPAs de un solo archivo HTML: estructura, rutas, componentes vanilla"]
+  ]},
+  css: { n:"CSS", icono:"css", esp:[
+    ["Flexbox","experto en flex: alineación, distribución, wrap, casos límite"],
+    ["Grid","experto en CSS Grid: áreas, auto-fit/auto-fill, subgrid, layouts complejos"],
+    ["Responsive","experto en mobile-first, media queries, clamp, unidades fluidas"],
+    ["Animaciones","experto en transitions, keyframes, transform, GPU, reduce-motion"],
+    ["Especificidad","experto en cascada, especificidad, capas (@layer), por qué no aplica un estilo"],
+    ["Variables y theming","experto en custom properties, temas claro/oscuro, design tokens"],
+    ["Tipografía","experto en fuentes web, line-height, jerarquía, legibilidad"],
+    ["Posicionamiento","experto en position, z-index, stacking contexts, sticky, overflow"],
+    ["Componentes UI","experto en cards, modales, tablas, formularios y estados hover/focus"],
+    ["Print y export","experto en CSS para impresión y PDF: page-break, @media print"]
+  ]},
+  html: { n:"HTML", icono:"html", esp:[
+    ["Semántica","experto en estructura semántica: section, article, nav, main, header"],
+    ["Formularios","experto en inputs, validación nativa HTML5, patrones, autocompletado"],
+    ["Accesibilidad","experto en WCAG 2.1, ARIA, lectores de pantalla, navegación por teclado"],
+    ["SEO técnico","experto en meta tags, Open Graph, datos estructurados schema.org"],
+    ["Multimedia","experto en img responsive, srcset, video, audio, lazy loading, iframes"],
+    ["Tablas","experto en tablas accesibles, thead/tbody, scope, tablas de datos complejas"],
+    ["Head y performance","experto en preload, defer/async, critical path, orden de carga"],
+    ["Plantillas email","experto en HTML para correos: tablas, inline styles, compatibilidad clientes"],
+    ["Embeds","experto en incrustar Drive, YouTube, mapas, calendarios vía iframe"],
+    ["PWA básico","experto en manifest, meta móviles, instalabilidad, íconos"]
+  ]},
+  arq: { n:"Arquitectura", icono:"arch", esp:[
+    ["Estructura de proyecto","experto en organizar carpetas, módulos y convenciones de proyectos web"],
+    ["GitHub Pages + GAS","experto en el patrón frontend estático + backend Apps Script como API JSON"],
+    ["APIs REST","experto en diseño de endpoints, verbos, códigos de estado, versionado"],
+    ["Pipelines de datos","experto en flujos ETL: fuentes → staging → destino, idempotencia"],
+    ["Integración multi-sistema","experto en conectar Sheets, Oracle, OCI, CRMs y APIs externas"],
+    ["Seguridad de llaves","experto en manejo de API keys, secretos, qué nunca subir a un repo"],
+    ["Escalabilidad","experto en pasar de 10 a 10.000 usuarios: caché, colas, particionado"],
+    ["CI/CD","experto en GitHub Actions: workflows, matrices, despliegues automáticos"],
+    ["Testing","experto en estrategia de pruebas: unitarias, integración, smoke tests"],
+    ["Documentación","experto en READMEs, manuales técnicos y de usuario, diagramas"]
+  ]}
+};
 
-/* ── RONDA 1: PROPUESTA (cada agente propone su visión) ── */
-function promptPropuesta(agente, skills){
-  return `${REGLAS_BASE}
-ERES: ${agente.nombre}, especialista en ${agente.rol}.
-${skills}
-FASE: PROPUESTA CREATIVA. Recibirás un brief. Propón TU visión para la pieza desde tu especialidad.
-Responde en máximo 130 palabras, formato exacto:
-CONCEPTO: (tu idea central en 1-2 frases)
-APORTE CLAVE: (lo más valioso que tu especialidad le mete a esta pieza, concreto y específico)
-RIESGO QUE VEO: (1 frase)`;
+function construirColmena(){
+  const c = {};
+  for(const [dId, d] of Object.entries(DOMINIOS)){
+    c[dId] = d.esp.flatMap(([eN, eD], ei) =>
+      ENFOQUES.map(enf => ({
+        id: `${dId}_${ei}_${enf.id}`,
+        dominio: dId,
+        nombre: `${d.n} · ${eN} · ${enf.n}`,
+        nombreCorto: `${eN} · ${enf.n}`,
+        especialidad: eN,
+        enfoque: enf.n,
+        system: `Eres agente de élite de ApiarIA Tech Swarm, ${eD}.
+DOMINIO: ${d.n}. ENFOQUE TÁCTICO: ${enf.n}. ${enf.mod}
+Eres uno de varios agentes resolviendo el mismo problema en paralelo: aporta TU mejor solución según tu enfoque.
+${FORMATO}`
+      }))
+    );
+  }
+  return c;
+}
+const COLMENA = construirColmena();
+const TOTAL_AGENTES = Object.values(COLMENA).reduce((a,c)=>a+c.length,0);
+
+/* Selección diversa: rota especialistas para no repetir enfoque */
+function seleccionarEscuadron(dominio, n){
+  const pool = COLMENA[dominio] || COLMENA.arq;
+  const porEsp = {};
+  pool.forEach(a => { const k = a.id.split("_")[1]; (porEsp[k] ||= []).push(a); });
+  const grupos = Object.values(porEsp);
+  const sel = []; let ronda = 0;
+  while(sel.length < Math.min(n, pool.length)){
+    for(const g of grupos){ if(g[ronda] && sel.length < n) sel.push(g[ronda]); }
+    ronda++;
+  }
+  return sel;
 }
 
-/* ── RONDA 2: DEBATE (cada agente lee a los demás y opina) ── */
-function promptDebate(agente, skills){
-  return `${REGLAS_BASE}
-ERES: ${agente.nombre}, especialista en ${agente.rol}.
+/* ─── PROMPTS DE DEBATE Y MODOS ─── */
+const COORDINADOR_SYSTEM = `Eres el NÚCLEO coordinador de la colmena Tech Swarm.
+Clasifica el problema. Dominios válidos: sql, python, m, sheets, excel, gas, js, css, html, arq.
+Responde ÚNICAMENTE JSON válido sin markdown:
+{"dominio":"<dominio>","complejidad":"simple|moderada|compleja","resumen":"una frase"}`;
+
+function promptPropuesta(ag, skills){
+  return `Eres ${ag.nombre} de ApiarIA Tech Swarm.
 ${skills}
-FASE: DEBATE DE COLMENA. Recibirás el brief y las propuestas de TUS COLEGAS. Léelas todas y debate.
+FASE 1 · PROPUESTA. Recibirás el problema. Aporta TU propuesta de solución desde tu enfoque ${ag.enfoque}.
+Responde en máximo 130 palabras, formato exacto:
+ENFOQUE QUE TOMO: (en 1 frase)
+PROPUESTA CLAVE: (qué propones, concreto y específico)
+RIESGO QUE VEO: (1 frase)`;
+}
+function promptDebate(ag, skills){
+  return `Eres ${ag.nombre} de ApiarIA Tech Swarm.
+${skills}
+FASE 2 · DEBATE. Lee las propuestas de tus colegas (vienen con sus enfoques distintos). Debate.
 Responde en máximo 110 palabras, formato exacto:
 ME QUEDO CON: (la mejor idea de un colega, di de quién y por qué)
 LE CAMBIARÍA: (qué corregirías de alguna propuesta, di de quién)
-MI APORTE FINAL: (qué debe quedar SÍ o SÍ de tu especialidad en la versión final)`;
+MI APORTE FINAL: (qué debe quedar SÍ o SÍ de tu enfoque ${ag.enfoque})`;
 }
 
-/* ── DIRECTOR: fusiona el debate en un plan ── */
-const DIRECTOR_SYSTEM = `${REGLAS_BASE}
-ERES: el DIRECTOR CREATIVO de la colmena. Recibes el brief, las propuestas y el debate de todos los agentes.
-Fusiona todo en UN plan de construcción definitivo. Sé concreto, no genérico.
-Formato exacto:
-## Plan de la colmena
-CONCEPTO GANADOR: (1-2 frases)
-PALETA Y TIPOGRAFÍA: (colores hex concretos y fuentes)
-SECCIONES: (lista numerada de las secciones/pantallas de la pieza)
-EFECTOS Y ANIMACIONES: (cuáles exactamente)
-INTERACTIVIDAD: (qué hace el JS)
-DECISIONES DEL DEBATE: (2-3 viñetas de qué ideas de qué agentes quedaron y cuáles se descartaron)`;
-
-/* ── CONSTRUCTOR: escribe el HTML completo ── */
-const CONSTRUCTOR_SYSTEM = `${REGLAS_BASE}
-ERES: el CONSTRUCTOR maestro de la colmena. Recibes un plan aprobado por el equipo.
-Tu única salida: el archivo HTML COMPLETO, funcional y pulido, dentro de un bloque \`\`\`html ... \`\`\`.
-- Empieza con <!DOCTYPE html> y termina con </html>. JAMÁS lo dejes incompleto ni cortes secciones con "...".
-- Implementa TODO el plan: cada sección, efecto e interacción listada.
-- El código debe funcionar al abrirlo directamente en un navegador, sin servidor.
-Antes del bloque de código escribe UNA sola línea: "Construyendo: [concepto]". Nada más después del bloque.`;
-
-/* ── CONSTRUCTOR EN MODO EDICIÓN (itera sobre código existente) ── */
-const EDITOR_SYSTEM = `${REGLAS_BASE}
-ERES: el CONSTRUCTOR de la colmena en modo EDICIÓN QUIRÚRGICA.
-Recibes el HTML actual de un proyecto y una solicitud de cambio.
-- Aplica SOLO los cambios pedidos. NO rediseñes ni refactorices lo que ya funciona.
-- Devuelve el archivo HTML COMPLETO actualizado (de <!DOCTYPE html> a </html>) en un bloque \`\`\`html ... \`\`\`. Nunca fragmentos, nunca "el resto igual".
-Antes del bloque escribe una línea: "Cambios aplicados: [resumen en 1 frase]". Nada más después.`;
-
-/* ── AUDITORES: revisan el código real ── */
-const AUDITORES = [
-  { id:"acc",  nombre:"Auditor Accesibilidad", foco:"contraste de colores, foco visible, alt en imágenes, navegación por teclado, tamaños táctiles" },
-  { id:"resp", nombre:"Auditor Responsive",    foco:"que nada se desborde en 360px de ancho, breakpoints, textos legibles en móvil" },
-  { id:"perf", nombre:"Auditor Performance",   foco:"animaciones que usen transform/opacity, sin bucles pesados, peso razonable" },
-  { id:"qa",   nombre:"Auditor QA",            foco:"errores de JS, IDs duplicados, botones que no hacen nada, enlaces rotos, etiquetas sin cerrar" }
-];
-function promptAuditor(aud){
-  return `ERES: ${aud.nombre} de ApiarIA Studio. Recibes el código HTML completo de una pieza.
-AUDITA EXCLUSIVAMENTE: ${aud.foco}.
-Responde en máximo 90 palabras, formato exacto:
-VEREDICTO: APROBADO o CORREGIR
-HALLAZGOS: (lista de máximo 3 problemas CONCRETOS con su ubicación, o "ninguno")
-FIX SUGERIDO: (instrucción precisa de qué cambiar, o "nada")`;
-}
-
-/* ── REFINADOR: aplica los hallazgos de auditoría ── */
-const REFINADOR_SYSTEM = `${REGLAS_BASE}
-ERES: el CONSTRUCTOR aplicando el control de calidad final.
-Recibes el HTML completo y los hallazgos de los auditores.
-- Aplica ÚNICAMENTE las correcciones señaladas. No cambies el diseño ni agregues features.
-- Devuelve el HTML COMPLETO corregido en un bloque \`\`\`html ... \`\`\`.
-Antes del bloque, una línea: "QC aplicado: [qué corregiste en 1 frase]". Nada después.`;
-
-/* ── UTILIDADES ── */
-function extraerHTML(texto){
-  const fence = texto.match(/```html\s*([\s\S]*?)```/i);
-  if(fence) return fence[1].trim();
-  const doc = texto.match(/<!DOCTYPE html[\s\S]*<\/html>/i);
-  if(doc) return doc[0];
-  return null;
-}
-
-function construirContextoSkills(){
-  const skills = JSON.parse(localStorage.getItem("apiaria_skills")||"[]").filter(s=>s.activa);
-  const ctx = JSON.parse(sessionStorage.getItem("apiaria_contexto")||"[]");
-  let bloque = "";
-  if(skills.length) bloque += "SKILLS ACTIVAS (sistemas de diseño/reglas del usuario — OBLIGATORIO cumplirlas):\n" +
-    skills.map(s=>`── SKILL «${s.nombre}» ──\n${s.contenido}`).join("\n\n") + "\n";
-  if(ctx.length) bloque += "\nCONTEXTO DEL PROYECTO (archivos de referencia cargados por el usuario):\n" +
-    ctx.map(c=>`── ${c.nombre} ──\n${c.contenido.slice(0,6000)}`).join("\n\n") + "\n";
-  return bloque;
-}
-
-/* Selección de tripulación según intensidad */
-const INTENSIDADES = {
-  rapida:  { propuestas:0, auditores:0, etiqueta:"Constructor directo · ~2 llamadas" },
-  media:   { propuestas:4, auditores:2, etiqueta:"4 proponen + debaten · 2 auditan · ~13 llamadas" },
-  alta:    { propuestas:7, auditores:4, etiqueta:"7 proponen + debaten · 4 auditan · ~21 llamadas" },
-  maxima:  { propuestas:10, auditores:4, etiqueta:"Los 10 debaten · 4 auditan · ~27 llamadas" }
-};
-function elegirCrew(n, brief){
-  // Prioriza agentes según palabras clave del brief, completa con el resto
-  const b = brief.toLowerCase();
-  const pesos = CREW.map(a=>{
-    let p = 0;
-    if(a.id==="datos" && /(grafic|chart|dashboard|tablero|dato|kpi)/.test(b)) p+=3;
-    if(a.id==="anim"  && /(anima|efecto|motion|scroll)/.test(b)) p+=3;
-    if(a.id==="inter" && /(juego|quiz|interact|formulario|calculadora|boton)/.test(b)) p+=3;
-    if(a.id==="copy"  && /(texto|landing|venta|marca|slogan)/.test(b)) p+=2;
-    if(["arq","arte","resp"].includes(a.id)) p+=1; // núcleo casi siempre útil
-    return { a, p: p + Math.random()*0.5 };
-  });
-  return pesos.sort((x,y)=>y.p-x.p).slice(0,n).map(x=>x.a);
-}
-
-/* ════════ MODO PENSAR: lluvia de ideas estratégica ════════ */
-function promptIdea(agente, skills){
-  return `Eres ${agente.nombre} de ApiarIA Studio, especialista en ${agente.rol}.
-${skills}
-FASE: LLUVIA DE IDEAS. Recibirás un reto (no necesariamente de código). Aporta desde tu especialidad.
-Responde en máximo 120 palabras, formato exacto:
-IDEA: (tu propuesta concreta, no genérica)
-POR QUÉ FUNCIONARÍA: (1-2 frases)
-PRIMER PASO: (la acción más pequeña para empezar mañana)`;
-}
-const ESTRATEGA_SYSTEM = `Eres el ESTRATEGA de ApiarIA Studio. Recibes un reto, las ideas de varios agentes y su debate cruzado.
-Sintetiza en español un plan accionable:
-## Plan estratégico de la colmena
-### La jugada ganadora
-(la idea o combinación de ideas elegida y por qué)
-### Plan de acción
-(pasos numerados, concretos, con el primer paso ejecutable hoy)
-### Ideas del debate que vale guardar
-(2-3 viñetas con crédito al agente)
-### Riesgos y cómo cubrirlos
-(2-3 viñetas)`;
-
-/* ════════ MODO SOLUCIONAR: resolvedores tácticos ════════ */
-const RESOLVEDORES = [
-  { id:"rprod", nombre:"Resolvedor Producción", petal:"arq",   foco:"la solución más robusta y lista para producción, con manejo de errores" },
-  { id:"rperf", nombre:"Resolvedor Performance", petal:"perf", foco:"la solución más rápida y eficiente, señalando cuellos de botella" },
-  { id:"rseg",  nombre:"Resolvedor Seguridad",  petal:"acc",   foco:"riesgos de seguridad: inyecciones, XSS, validación de entradas, fugas" },
-  { id:"rqa",   nombre:"Resolvedor QA",         petal:"inter", foco:"edge cases y datos que romperían las soluciones obvias; la versión a prueba de fallos" },
-  { id:"rdid",  nombre:"Resolvedor Didáctico",  petal:"ux",    foco:"la explicación más clara posible del problema y su solución, para no desarrolladores" }
-];
-function promptResolvedor(rv, skills){
-  return `Eres ${rv.nombre} de ApiarIA Studio. Atacas cualquier problema técnico (HTML, CSS, JS, SQL, Python, Sheets, Excel, GAS, arquitectura) priorizando: ${rv.foco}.
-${skills}
-Responde en español: ## Diagnóstico / ## Solución (código completo si aplica) / ## Por qué funciona.
-Cierra con la línea exacta: CONFIANZA: 0.XX`;
-}
-const SOLUCION_SINTESIS = `Eres el SINTETIZADOR de ApiarIA Studio. Recibes las soluciones de varios resolvedores tácticos al mismo problema.
-Fusiónalas en UNA respuesta superior en español:
+const SINTETIZADOR_SYSTEM = `Eres el SINTETIZADOR de Tech Swarm. Recibes el problema, las propuestas y el debate.
+Fusiona en español la respuesta superior:
 ## Solución de la colmena
-(código final completo y comentado si aplica)
+(código completo final, sin truncar, comentado en español — toma lo mejor de todas)
 ## Por qué funciona
 ## Hallazgos del enjambre
-(riesgos de seguridad, edge cases, performance — con crédito al resolvedor)
+(2-4 viñetas: riesgos de seguridad, edge cases del QA, mejoras de performance — con crédito al enfoque)
+## Alternativas
+(1-2 alternativas breves con pros y contras)
 ## Veredicto
-Confianza final: 0.XX`;
+Enfoques aplicados: [...] · Agentes consultados: [N] · Confianza final: 0.XX`;
 
-/* ════════ MODO INVESTIGAR ════════ */
-const INVESTIGADORES = [
-  { id:"ipan", nombre:"Investigador Panorama",  petal:"copy",  angulo:"el panorama general: qué es, estado actual, actores principales, cifras clave" },
-  { id:"itec", nombre:"Investigador Técnico",   petal:"datos", angulo:"el detalle técnico: cómo funciona, opciones disponibles, comparativas, requisitos" },
-  { id:"irie", nombre:"Investigador Crítico",   petal:"ux",    angulo:"riesgos, limitaciones, costos ocultos, críticas y alternativas" }
-];
-function promptInvestigador(iv){
-  return `Eres ${iv.nombre} de ApiarIA Studio. Investiga el tema cubriendo exclusivamente: ${iv.angulo}.
-Responde en español, máximo 250 palabras, en viñetas concretas con datos. Si citas fuentes o fechas, sé preciso; si no estás seguro de un dato, dilo.`;
+/* ─── MODO PENSAR ─── */
+function promptIdea(ag, skills){
+  return `Eres ${ag.nombre} de ApiarIA Tech Swarm.
+${skills}
+FASE: LLUVIA DE IDEAS ESTRATÉGICA sobre un reto técnico. Aporta desde tu enfoque ${ag.enfoque}.
+Máximo 120 palabras, formato:
+IDEA: (propuesta concreta)
+POR QUÉ FUNCIONARÍA: (1-2 frases)
+PRIMER PASO: (acción ejecutable hoy)`;
 }
-const INFORME_SINTESIS = `Eres el SINTETIZADOR de ApiarIA Studio. Recibes los hallazgos de varios investigadores sobre un tema.
-Redacta en español un informe ejecutivo:
-## Informe de la colmena
-### Lo esencial en 5 líneas
-### Hallazgos clave
-(viñetas organizadas por subtema)
-### Riesgos y limitaciones
-### Recomendación
-(qué haría la colmena con esta información)`;
+const ESTRATEGA_SYSTEM = `Eres el ESTRATEGA de Tech Swarm. Recibes un reto técnico, las ideas y el debate del enjambre.
+Redacta en español un plan accionable:
+## Plan estratégico
+### La jugada ganadora
+### Plan de acción (pasos numerados)
+### Ideas del debate que vale guardar
+### Riesgos y cómo cubrirlos`;
